@@ -1,0 +1,32 @@
+function lectureval() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var d=0;
+  do { 
+    var cell = ss.getRange(d+3, 2).getValue();
+    d++;
+  } while (cell.length >= 1);
+   
+  var url = "https://docs.google.com/spreadsheets/d/1Aan2-79DIXjx_dg2-DIY-DI442elWVC1siwD9qdj0S0/edit#gid=0";
+  var url2 = "https://docs.google.com/spreadsheets/d/1gGtIlNb5PAutUBi4pD74VUvWQQ7pd3Kgk9TAEYgQW7A/edit#gid=0";
+  for (var i = 3; i <= d+1; i++) {
+    var values = ss.getRange(i, 2, 1, 6).getValues();
+    var nstock =  values[0][3] + values[0][1] - values[0][2];
+    ss.getRange(i, 3, 1, 2).clear({ formatOnly: false, contentsOnly: true });
+    ss.getRange(i, 5).setValue(nstock);
+    if (nstock < values[0][4] && ss.getRange(i, 5).getBackground() != '#ff0000') {
+      var message = {
+        to: "mael.donnio_stg@cooperl.com",
+        subject: "Stock de "+values[0][0]+" faible !",
+        htmlBody:"Le stock de "+values[0][0]+" est de "+nstock+" il est inférieur à la limite: "+values[0][4]+ '<br />'+'<br />'+ '<a href=\"' +url+ '">Stock de materiel</a>'+'<br />'+ '<a href=\"' +url2+ '">Commander du matériel</a>',
+        name: "Gestion des stocks"
+  };
+      MailApp.sendEmail(message);
+      ss.getRange(i, 5).setBackground('#ff0000');
+    }
+    if (nstock >= values[0][4])  {
+      ss.getRange(i, 5).setBackground(null);
+    }
+    SpreadsheetApp.flush();
+  }
+}
+
