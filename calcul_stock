@@ -15,7 +15,7 @@ function lectureval() {
     ss.getRange(i, 5).setValue(nstock);
     if (nstock < values[0][4] && ss.getRange(i, 5).getBackground() != '#ff0000') {
       var message = {
-        to: "mael.donnio_stg@cooperl.com",
+        to: "mael.donnio@gmail.com",
         subject: "Stock de "+values[0][0]+" faible !",
         htmlBody:"Le stock de "+values[0][0]+" est de "+nstock+" il est inférieur à la limite: "+values[0][4]+ '<br />'+'<br />'+ '<a href=\"' +url+ '">Stock de materiel</a>'+'<br />'+ '<a href=\"' +url2+ '">Commander du matériel</a>',
         name: "Gestion des stocks"
